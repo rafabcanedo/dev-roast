@@ -1,9 +1,10 @@
 "use client";
 
 import * as Switch from "@base_ui/react/Switch";
+import type { ComponentProps } from "react";
 import { tv } from "tailwind-variants";
 
-const wrapper = tv({
+const toggleRoot = tv({
   base: "inline-flex items-center gap-2.5",
 });
 
@@ -25,40 +26,55 @@ const thumb = tv({
   ],
 });
 
-type ToggleProps = {
+const toggleLabel = tv({
+  base: "font-mono text-sm text-accent-green",
+});
+
+type ToggleRootProps = ComponentProps<"div">;
+
+function ToggleRoot({ className, ...props }: ToggleRootProps) {
+  return <div className={toggleRoot({ className })} {...props} />;
+}
+
+type ToggleTriggerProps = {
   checked?: boolean;
   defaultChecked?: boolean;
   onCheckedChange?: (checked: boolean, event: Event) => void;
-  label?: string;
   disabled?: boolean;
   className?: string;
 };
 
-function Toggle({
+function ToggleTrigger({
   checked,
   defaultChecked,
   onCheckedChange,
-  label,
   disabled,
   className,
-}: ToggleProps) {
+}: ToggleTriggerProps) {
   return (
-    <div className={wrapper({ className })}>
-      <Switch.Root
-        checked={checked}
-        defaultChecked={defaultChecked}
-        onCheckedChange={onCheckedChange}
-        disabled={disabled}
-        className={track()}
-      >
-        <Switch.Thumb className={thumb()} />
-      </Switch.Root>
-      {label && (
-        <span className="font-mono text-sm text-accent-green">{label}</span>
-      )}
-    </div>
+    <Switch.Root
+      checked={checked}
+      defaultChecked={defaultChecked}
+      onCheckedChange={onCheckedChange}
+      disabled={disabled}
+      className={track({ className })}
+    >
+      <Switch.Thumb className={thumb()} />
+    </Switch.Root>
   );
 }
 
-export { Toggle };
-export type { ToggleProps };
+type ToggleLabelProps = ComponentProps<"span">;
+
+function ToggleLabel({ className, ...props }: ToggleLabelProps) {
+  return <span className={toggleLabel({ className })} {...props} />;
+}
+
+export {
+  ToggleRoot,
+  ToggleTrigger,
+  ToggleLabel,
+  type ToggleRootProps,
+  type ToggleTriggerProps,
+  type ToggleLabelProps,
+};

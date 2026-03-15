@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, JetBrains_Mono } from "next/font/google";
-import { Navbar, NavbarBrand, NavbarLink, NavbarLinks } from "@/components/ui/navbar";
 import "./globals.css";
+import { Navbar } from "@/components/navbar";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -26,14 +26,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="pt-BR"
       className={`${jetbrainsMono.variable} ${ibmPlexMono.variable}`}
     >
-      <body className="min-h-screen bg-page text-content">
-        <Navbar>
-          <NavbarBrand />
-          <NavbarLinks>
-            <NavbarLink href="/leaderboard">leaderboard</NavbarLink>
-          </NavbarLinks>
-        </Navbar>
-        <main>{children}</main>
+      <body className="min-h-screen bg-page text-content font-sans antialiased">
+        <Navbar />
+        {children}
       </body>
     </html>
   );

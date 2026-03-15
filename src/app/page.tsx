@@ -1,129 +1,129 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { CodeBlock } from "@/components/ui/code-block";
-import { Toggle } from "@/components/ui/toggle";
+import Link from "next/link";
+import { HomeEditor } from "./home-editor";
+import {
+  LeaderboardRowCode,
+  LeaderboardRowLanguage,
+  LeaderboardRowRank,
+  LeaderboardRowRoot,
+  LeaderboardRowScore,
+} from "@/components/ui/leaderboard-row";
 
-const SAMPLE_CODE = `function calculateTotal(items) {
-  var total = 0;
-  for (var i = 0; i < items.length; i++) {
-    total = total + items[i].price;
-  }
-
-  if (total > 100) {
-    console.log("discount applied");
-    total = total * 0.9;
-  }
-
-  // TODO: handle tax calculation
-  // TODO: handle currency conversion
-}`;
-
-const LEADERBOARD: {
-  rank: number;
-  score: number;
-  title: string;
-  lang: string;
-  severity: "critical" | "warning" | "good";
-}[] = [
+const leaderboardEntries = [
   {
     rank: 1,
     score: 1.2,
-    title:
-      "eval(p.meet('enter cmd()')\ndocument.write(id['replace'])\n// Trust the AI ;)",
-    lang: "typescript",
-    severity: "critical",
+    lines: [
+      'eval(prompt("enter code"))',
+      "document.write(response)",
+      "// trust the user lol",
+    ],
+    language: "javascript",
+  },
+  {
+    rank: 2,
+    score: 1.8,
+    lines: [
+      "if (x == true) { return true; }",
+      "else if (x == false) { return false; }",
+      "else { return !false; }",
+    ],
+    language: "typescript",
   },
   {
     rank: 3,
-    score: 1.0,
-    title:
-      "if (a == TRUE) { return 'yes'; }\nelse if (c == false) { return false; }\nelse { return false; }",
-    lang: "javascript",
-    severity: "critical",
-  },
-  {
-    rank: 7,
     score: 2.1,
-    title: "SELECT * FROM users WHERE 1=0\nTODO: add authentication",
-    lang: "sql",
-    severity: "warning",
+    lines: ["SELECT * FROM users WHERE 1=1", "-- TODO: add authentication"],
+    language: "sql",
   },
 ];
 
-export default async function Home() {
+export default function HomePage() {
   return (
-    <div className="mx-auto max-w-3xl px-6 py-16">
+    <main className="flex flex-col items-center">
       {/* Hero */}
-      <div className="mb-10 text-center">
-        <h1 className="mb-3 font-mono text-4xl font-bold leading-tight text-content">
-          <span className="text-accent-green">$</span> paste your code.{" "}
-          get roasted.
+      <section className="flex flex-col items-center gap-3 pt-20 px-10">
+        <h1 className="flex items-center gap-3 font-mono text-4xl font-bold">
+          <span className="text-accent-green">$</span>
+          <span className="text-content">paste your code. get roasted.</span>
         </h1>
         <p className="font-mono text-sm text-muted">
-          // Drop your code below and we&apos;ll rate it — Brutally honest as
-          hell, sorry not sorry.
+          {"// drop your code below and we'll rate it — brutally honest or full roast mode"}
         </p>
+      </section>
+
+      {/* Editor + Actions */}
+      <section className="w-full max-w-5xl px-10 pt-8">
+        <HomeEditor />
+      </section>
+
+      {/* Footer Stats */}
+      <div className="flex items-center gap-6 justify-center pt-8">
+        <span className="font-mono text-xs text-ghost">2,847 codes roasted</span>
+        <span className="font-mono text-xs text-ghost">·</span>
+        <span className="font-mono text-xs text-ghost">avg score: 4.2/10</span>
       </div>
 
-      {/* Code input */}
-      <CodeBlock code={SAMPLE_CODE} lang="javascript" filename="main.js" />
+      {/* Spacer */}
+      <div className="h-15" />
 
-      {/* Controls */}
-      <div className="mt-4 flex items-center justify-between">
-        <Toggle label="roast mode" defaultChecked />
-        <Button>PASTE_MY_CODE</Button>
-      </div>
+      {/* Leaderboard Preview */}
+      <section className="flex flex-col gap-6 w-full max-w-5xl px-10 pb-15">
+        {/* Title Row */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-sm font-bold text-accent-green">
+              {"//"}
+            </span>
+            <span className="font-mono text-sm font-bold text-content">
+              shame_leaderboard
+            </span>
+          </div>
 
-      {/* Stats */}
-      <p className="mt-4 text-center font-mono text-xs text-muted">
-        2,147 codes roasted &middot; 414 lines &middot; 2/23
-      </p>
-
-      {/* Leaderboard */}
-      <section className="mt-16">
-        <div className="mb-1 flex items-center justify-between">
-          <h2 className="font-mono text-sm text-muted">
-            <span className="text-accent-green">#</span> sharer_leaderboard
-          </h2>
-          <span className="font-mono text-xs text-muted">1 ←$sol.it →</span>
+          <Link
+            href="/leaderboard"
+            className="font-mono text-xs text-muted border border-border px-3 py-1.5 hover:bg-elevated transition-colors"
+          >
+            $ view_all {">>"}
+          </Link>
         </div>
-        <p className="mb-5 font-mono text-xs text-ghost">
-          // the worst code of the internet, sorted by shame.
+
+        {/* Subtitle */}
+        <p className="font-mono text-[13px] text-ghost -mt-2">
+          {"// the worst code on the internet, ranked by shame"}
         </p>
 
-        {/* Table header */}
-        <div className="flex items-center gap-4 px-4 py-2 font-mono text-xs text-ghost">
-          <span className="w-6">#</span>
-          <span className="w-10">score</span>
-          <span className="flex-1">task</span>
-          <span className="w-24 text-right">lang</span>
-        </div>
+        {/* Leaderboard Table */}
+        <div className="border border-border w-full">
+          {/* Table Header */}
+          <div className="flex items-center h-10 px-5 bg-surface border-b border-border">
+            <span className="w-10 font-mono text-xs font-medium text-ghost">#</span>
+            <span className="w-15 font-mono text-xs font-medium text-ghost">score</span>
+            <span className="flex-1 font-mono text-xs font-medium text-ghost">code</span>
+            <span className="w-25 font-mono text-xs font-medium text-ghost text-right">lang</span>
+          </div>
 
-        {/* Rows */}
-        <div className="flex flex-col gap-px">
-          {LEADERBOARD.map((entry) => (
-            <div
-              key={entry.rank}
-              className="flex items-start gap-4 border border-border bg-surface px-4 py-3 font-mono text-xs"
-            >
-              <span className="w-6 shrink-0 text-muted">{entry.rank}</span>
-              <span className="w-10 shrink-0 text-accent-amber">
-                {entry.score.toFixed(1)}
-              </span>
-              <pre className="flex-1 whitespace-pre-wrap text-content">
-                {entry.title}
-              </pre>
-              <Badge variant={entry.severity} className="shrink-0">
-                {entry.lang}
-              </Badge>
-            </div>
+          {/* Table Rows */}
+          {leaderboardEntries.map((entry) => (
+            <LeaderboardRowRoot key={entry.rank}>
+              <LeaderboardRowRank>#{entry.rank}</LeaderboardRowRank>
+              <LeaderboardRowScore value={entry.score} />
+              <LeaderboardRowCode>{entry.lines.join(" · ")}</LeaderboardRowCode>
+              <LeaderboardRowLanguage>{entry.language}</LeaderboardRowLanguage>
+            </LeaderboardRowRoot>
           ))}
         </div>
 
-        <p className="mt-5 text-center font-mono text-xs text-muted">
-          Showing 3 of 2,147 &middot; View full leaderboard →
+        {/* Fade Hint */}
+        <p className="font-mono text-xs text-ghost text-center">
+          showing top 3 of 2,847 ·{" "}
+          <Link
+            href="/leaderboard"
+            className="text-muted hover:text-content transition-colors"
+          >
+            view full leaderboard {">>"}
+          </Link>
         </p>
       </section>
-    </div>
+    </main>
   );
 }
