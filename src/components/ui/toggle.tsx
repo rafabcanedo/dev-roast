@@ -1,7 +1,7 @@
 "use client";
 
 import * as Switch from "@base_ui/react/Switch";
-import type { ComponentProps } from "react";
+import type { ChangeEvent, ComponentProps } from "react";
 import { tv } from "tailwind-variants";
 
 const toggleRoot = tv({
@@ -10,11 +10,11 @@ const toggleRoot = tv({
 
 const track = tv({
   base: [
-    "relative inline-flex h-[22px] w-10 cursor-pointer rounded-full",
+    "relative inline-flex items-center h-[22px] w-10 cursor-pointer rounded-full",
     "bg-elevated transition-colors",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-green focus-visible:ring-offset-2 focus-visible:ring-offset-page",
     "disabled:cursor-not-allowed disabled:opacity-50",
-    "data-[checked]:bg-accent-green",
+    "data-[state=checked]:bg-accent-green",
   ],
 });
 
@@ -22,7 +22,7 @@ const thumb = tv({
   base: [
     "block size-4 translate-x-0.5 rounded-full bg-page",
     "transition-transform duration-150",
-    "data-[checked]:translate-x-[22px]",
+    "data-[state=checked]:translate-x-[22px]",
   ],
 });
 
@@ -39,7 +39,7 @@ function ToggleRoot({ className, ...props }: ToggleRootProps) {
 type ToggleTriggerProps = {
   checked?: boolean;
   defaultChecked?: boolean;
-  onCheckedChange?: (checked: boolean, event: Event) => void;
+  onCheckedChange?: (checked: boolean, event: ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
   className?: string;
 };

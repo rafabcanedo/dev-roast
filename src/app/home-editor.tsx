@@ -25,15 +25,15 @@ function HomeEditor() {
               checked={roastMode}
               onCheckedChange={setRoastMode}
             />
-            <ToggleLabel>roast mode</ToggleLabel>
+            <ToggleLabel className={roastMode ? undefined : "text-ghost"}>roast mode</ToggleLabel>
           </ToggleRoot>
           <span className="font-mono text-xs text-ghost">
-            {"// maximum sarcasm enabled"}
+            {roastMode ? "// maximum sarcasm enabled" : "// constructive feedback mode"}
           </span>
         </div>
 
         <Button variant="primary" size="lg" disabled={code.trim().length === 0}>
-          $ roast_my_code
+          {roastMode ? "$ roast_my_code" : "$ review_my_code"}
         </Button>
       </div>
     </div>
