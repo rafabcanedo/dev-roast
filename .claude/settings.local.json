@@ -3,7 +3,9 @@
     "allow": [
       "Bash(npm install:*)",
       "Bash(wait)",
-      "Bash(npm show:*)"
+      "Bash(npm show:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ]
   }
 }
